@@ -1,6 +1,7 @@
 <?php
 
 require_once 'config.php';
+require_once 'includes/functions.php';
 
 $module = _DEFAULT_MODULE;
 $action = _DEFAULT_ACTION;
