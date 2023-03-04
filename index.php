@@ -2,6 +2,8 @@
 
 require_once 'config.php';
 require_once 'includes/functions.php';
+require_once 'includes/connect.php';
+require_once 'includes/database.php';
 
 $module = _DEFAULT_MODULE;
 $action = _DEFAULT_ACTION;
@@ -17,7 +19,6 @@ if (!empty($_GET['action'])) {
         $action = trim($_GET['action']);
     }
 }
-
 
 $path = 'modules/' . $module . '/' . $action . '.php';
 if (file_exists($path)) {

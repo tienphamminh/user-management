@@ -5,12 +5,12 @@ if (!defined('_INCODE')) die('Access Denied...');
 $data = [
     'pageTitle' => 'Register'
 ];
-layout('header-login', $data);
+addLayout('header-login', $data);
 ?>
 
     <div class="row">
         <div class="col-6" style="margin: 20px auto;">
-            <h3 class="text-center text-uppercase">Create an Account</h3>
+            <h3 class="text-center text-uppercase" style="margin-bottom: 40px">Create an Account</h3>
 
             <form action="" method="post">
                 <div class="form-group">
@@ -50,4 +50,4 @@ layout('header-login', $data);
     </div>
 
 <?php
-layout('footer-login');
+addLayout('footer-login');
