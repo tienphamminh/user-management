@@ -1,9 +1,12 @@
 <?php
 
+session_start();
+
 require_once 'config.php';
 require_once 'includes/functions.php';
 require_once 'includes/connect.php';
 require_once 'includes/database.php';
+require_once 'includes/session.php';
 
 $module = _DEFAULT_MODULE;
 $action = _DEFAULT_ACTION;
