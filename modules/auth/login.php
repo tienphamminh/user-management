@@ -6,6 +6,12 @@ $data = [
     'pageTitle' => 'Login'
 ];
 addLayout('header-login', $data);
+
+//$isMailSend = sendMail('tienteo200vn@gmail.com', 'USER MANAGEMENT SYSTEM TEST', 'Xin chào Tiến, đây là thư thử nghiệm.');
+//
+//if ($isMailSend) {
+//    echo 'Send Email successfully!';
+//}
 ?>
 
     <div class="row">
