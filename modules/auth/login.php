@@ -8,10 +8,16 @@ $data = [
 addLayout('header-login', $data);
 
 //$isMailSend = sendMail('tienteo200vn@gmail.com', 'USER MANAGEMENT SYSTEM TEST', 'Xin chào Tiến, đây là thư thử nghiệm.');
+//echo '<br>';
+//var_dump($isMailSend);
 //
-//if ($isMailSend) {
-//    echo 'Send Email successfully!';
-//}
+//echo '<br><br>';
+//
+//$dataInsert = ['id' => 1];
+//$isSuccess = insert('haha', $dataInsert);
+//echo '<br>';
+//var_dump($isSuccess);
+
 ?>
 
     <div class="row">
