@@ -21,8 +21,8 @@ function query($sql, $data = [], $getStatement = false)
             return $sth;
         }
     } catch (PDOException $e) {
-        require_once 'modules/error/db-error.php';
-        exit;
+//        require_once 'modules/error/db-error.php';
+//        exit;
     }
 
     return $isSuccess;
