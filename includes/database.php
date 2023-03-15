@@ -21,8 +21,8 @@ function query($sql, $data = [], $getStatement = false)
             return $sth;
         }
     } catch (PDOException $e) {
-        echo $e->getMessage() . '<br/>';
-        echo 'File: ' . $e->getFile() . ' - Line: ' . $e->getLine();
+        require_once 'modules/error/db-error.php';
+        exit;
     }
 
     return $isSuccess;
@@ -113,5 +113,16 @@ function selectFirstRow($tableName, $fieldStr = '*', $condition = '', $dataCondi
     }
 
     return getFirstRow($sql, $dataCondition);
+}
+
+// Returns the number of rows affected by the last SQL statement
+function getNumberOfRows($sql, $data)
+{
+    $statement = query($sql, $data, true);
+    if (is_object($statement)) {
+        return $statement->rowCount();
+    }
+
+    return false;
 }
 

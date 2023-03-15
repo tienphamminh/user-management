@@ -10,9 +10,9 @@ addLayout('header-login', $data);
 //$isMailSend = sendMail('tienteo200vn@gmail.com', 'USER MANAGEMENT SYSTEM TEST', 'Xin chào Tiến, đây là thư thử nghiệm.');
 //echo '<br>';
 //var_dump($isMailSend);
-//
+
 //echo '<br><br>';
-//
+
 //$dataInsert = ['id' => 1];
 //$isSuccess = insert('haha', $dataInsert);
 //echo '<br>';
@@ -27,7 +27,7 @@ addLayout('header-login', $data);
             <form method="post" action="">
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" name="email" class="form-control" id="email" placeholder="Email address...">
+                    <input type="text" name="email" class="form-control" id="email" placeholder="Email address...">
                 </div>
 
                 <div class="form-group">

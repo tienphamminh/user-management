@@ -3,6 +3,7 @@
 if (!defined('_INCODE')) die('Access Denied...');
 
 //Import PHPMailer classes into the global namespace
+use JetBrains\PhpStorm\NoReturn;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -16,7 +17,7 @@ function addLayout($layoutName = 'header', $data = []): void
 }
 
 // Send mail using phpmailer
-function sendMail($to, $subject, $body)
+function sendMail($to, $subject, $body): bool
 {
     //Create an instance; passing `true` enables exceptions
     $mail = new PHPMailer(true);
@@ -28,7 +29,7 @@ function sendMail($to, $subject, $body)
         $mail->Host = 'smtp.gmail.com';                     //Set the SMTP server to send through
         $mail->SMTPAuth = true;                             //Enable SMTP authentication
         $mail->Username = 'tienphamminh0312@gmail.com';     //SMTP username
-        $mail->Password = 'dmtuhcruplertptd';               //SMTP password
+        $mail->Password = '';               //SMTP password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;    //Enable implicit TLS encryption
         $mail->Port = 465;                                  //TCP
         $mail->SMTPOptions = array(
@@ -76,7 +77,7 @@ function isGet(): bool
     return false;
 }
 
-function getBody()
+function getBody(): array
 {
     $bodyArr = [];
 
@@ -118,34 +119,30 @@ function isEmail($email)
     return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
 
-// Check if an input string is INT
+// Check if an input string is INT (Ex: $range = ['min_range'=>1, 'max_range'=>20])
 function isNumberInt($number, $range = [])
 {
     if (!empty($range)) {
         $options = ['options' => $range];
-        $checkNumber = filter_var($number, FILTER_VALIDATE_INT, $options);
+        return filter_var($number, FILTER_VALIDATE_INT, $options);
     } else {
-        $checkNumber = filter_var($number, FILTER_VALIDATE_INT);
+        return filter_var($number, FILTER_VALIDATE_INT);
     }
-
-    return $checkNumber;
 }
 
-// Check if an input string is Float
+// Check if an input string is Float (Ex: $range = ['min_range'=>1, 'max_range'=>20])
 function isNumberFloat($number, $range = [])
 {
     if (!empty($range)) {
         $options = ['options' => $range];
-        $checkNumber = filter_var($number, FILTER_VALIDATE_FLOAT, $options);
+        return filter_var($number, FILTER_VALIDATE_FLOAT, $options);
     } else {
-        $checkNumber = filter_var($number, FILTER_VALIDATE_FLOAT);
+        return filter_var($number, FILTER_VALIDATE_FLOAT);
     }
-
-    return $checkNumber;
 }
 
 // Check if an input string is VN phone number
-function isPhone($phone)
+function isPhone($phone): bool
 {
     $checkFirstZero = false;
 
@@ -166,3 +163,41 @@ function isPhone($phone)
 
     return false;
 }
+
+#[NoReturn] function redirect($url = 'index.php'): void
+{
+    // Send a "Location:" header and a REDIRECT (302) status code back to the client
+    header("Location: $url");
+    exit;
+}
+
+// Get contextual feedback messages (Ex: $context = 'success', 'danger', 'warning' )
+function getMessage($msg, $context): ?string
+{
+    if (!empty($msg)) {
+        return '<div class="alert alert-' . $context . '">' . $msg . '</div>';
+    }
+
+    return null;
+}
+
+// Get form validation errors
+function getFormError($fieldName, $errors): ?string
+{
+    if (!empty($errors[$fieldName])) {
+        return '<span class="error">' . reset($errors[$fieldName]) . '</span>';
+    }
+
+    return null;
+}
+
+// Get old form value
+function getOldFormValue($fieldName, $oldDData)
+{
+    if (!empty($oldDData[$fieldName])) {
+        return $oldDData[$fieldName];
+    }
+
+    return null;
+}
+
