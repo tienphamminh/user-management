@@ -18,11 +18,16 @@ addLayout('header-login', $data);
 //echo '<br>';
 //var_dump($isSuccess);
 
+
+$msg = getFlashData('msg');
+$msgType = getFlashData('msg_type');
 ?>
 
     <div class="row">
         <div class="col-6" style="margin: 20px auto;">
             <h3 class="text-center text-uppercase" style="margin-bottom: 40px">Login to System</h3>
+
+            <?php echo getMessage($msg, $msgType) ?>
 
             <form method="post" action="">
                 <div class="form-group">

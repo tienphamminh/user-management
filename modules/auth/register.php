@@ -85,10 +85,10 @@ if (isPost()) {
             $activeLink = _WEB_HOST_ROOT . '?module=auth&action=active&token=' . $activeToken;
             // Send mail
             $subject = 'Please verify your account';
-            $content = 'Hi ' . $fullname . '!' . '<br/>';
-            $content .= 'Please click the link below to verify your account:' . '<br/>';
+            $content = 'Hi ' . $fullname . '! <br/>';
+            $content .= 'Please click the link below to verify your account: <br/>';
             $content .= $activeLink . '<br/>';
-            $content .= 'Regards.!';
+            $content .= 'Regards.';
             $isMailSent = sendMail($email, $subject, $content);
 
             if ($isMailSent) {
