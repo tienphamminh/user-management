@@ -16,5 +16,5 @@ try {
     }
 } catch (PDOException $e) {
     require_once 'modules/error/db-error.php';
-    die();
+    exit;
 }
