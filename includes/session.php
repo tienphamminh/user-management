@@ -4,7 +4,7 @@ if (!defined('_INCODE')) die('Access Denied...');
 
 /*Write functions to handle session*/
 
-function setSession($key, $value)
+function setSession($key, $value): bool
 {
     if (!empty(session_id())) {
         $_SESSION[$key] = $value;
@@ -28,7 +28,7 @@ function getSession($key = '')
 }
 
 // Unset session variables
-function removeSession($key = '')
+function removeSession($key = ''): bool
 {
     if (empty($key)) {
         session_unset();
@@ -44,7 +44,7 @@ function removeSession($key = '')
 }
 
 // Terminate the session
-function destroySession()
+function destroySession(): void
 {
     // Unset all the session variables.
     $_SESSION = array();
@@ -68,7 +68,7 @@ function destroySession()
 }
 
 // Set flash data
-function setFlashData($key, $value)
+function setFlashData($key, $value): bool
 {
     $key = 'flash_' . $key;
     return setSession($key, $value);
@@ -83,4 +83,3 @@ function getFlashData($key)
 
     return $data;
 }
-
