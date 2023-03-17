@@ -7,17 +7,53 @@ $data = [
 ];
 addLayout('header-login', $data);
 
-//$isMailSend = sendMail('tienteo200vn@gmail.com', 'USER MANAGEMENT SYSTEM TEST', 'Xin chào Tiến, đây là thư thử nghiệm.');
-//echo '<br>';
-//var_dump($isMailSend);
+if (isLoggedIn()) {
+    redirect('?module=home&action=welcome');
+}
 
-//echo '<br><br>';
+if (isPost()) {
+    $body = getBody();
+    if (!empty(trim($body['email'])) && !empty($body['password'])) {
+        $email = $body['email'];
+        $password = $body['password'];
 
-//$dataInsert = ['id' => 1];
-//$isSuccess = insert('haha', $dataInsert);
-//echo '<br>';
-//var_dump($isSuccess);
+        $sql = "SELECT id, password FROM user WHERE email=:email";
+        $data = ['email' => $email];
+        $result = getFirstRow($sql, $data);
 
+        if (!empty($result)) {
+            $hashedPassword = $result['password'];
+            $isPasswordMatch = password_verify($password, $hashedPassword);
+            if ($isPasswordMatch) {
+                // Create login token
+                $loginToken = sha1(uniqid() . time());
+                // Insert into table 'login_token'
+                $dataInsert = [
+                    'user_id' => $result['id'],
+                    'token' => $loginToken,
+                    'create_at' => date('Y-m-d H:i:s')
+                ];
+                $isDataInserted = insert('login_token', $dataInsert);
+
+                if ($isDataInserted) {
+                    setSession('login_token', $loginToken);
+                    redirect('?module=home&action=welcome');
+                } else {
+                    setFlashData('msg', 'Something went wrong, please try again.');
+                    setFlashData('msg_type', 'danger');
+                    redirect('?module=auth&action=login');
+                }
+            }
+        }
+        setFlashData('msg', 'Incorrect email address or password.');
+
+    } else {
+        setFlashData('msg', 'Please enter your email and password.');
+    }
+
+    setFlashData('msg_type', 'danger');
+    redirect('?module=auth&action=login');
+}
 
 $msg = getFlashData('msg');
 $msgType = getFlashData('msg_type');
@@ -32,7 +68,7 @@ $msgType = getFlashData('msg_type');
             <form method="post" action="">
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="text" name="email" class="form-control" id="email" placeholder="Email address...">
+                    <input type="email" name="email" class="form-control" id="email" placeholder="Email address...">
                 </div>
 
                 <div class="form-group">

@@ -29,7 +29,8 @@ if (!empty(getBody()['token'])) {
 
             $loginLink = _WEB_HOST_ROOT . '?module=auth&action=login';
             $subject = 'Account activated successfully';
-            $content = 'Your account ' . $result['email'] . ' has been activated successfully. <br>';
+            $content = 'Hi ' . $result['fullname'] . '! <br>';
+            $content .= 'Your account ' . $result['email'] . ' has been activated successfully. <br>';
             $content .= 'You can log in by clicking the link below: <br>' . $loginLink . '<br>';
             $content .= 'Regards.';
             sendMail($result['email'], $subject, $content);

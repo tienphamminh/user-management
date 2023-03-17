@@ -201,3 +201,22 @@ function getOldFormValue($fieldName, $oldDData)
     return null;
 }
 
+function isLoggedIn()
+{
+    if (getSession('login_token')) {
+        $loginToken = getSession('login_token');
+
+        // Check if $_SESSION['login_token'] exists in table 'login_token'
+        $sql = "SELECT user_id FROM login_token WHERE token=:token";
+        $data = ['token' => $loginToken];
+        $result = getFirstRow($sql, $data);
+
+        if (!empty($result)) {
+            return $result;
+        } else {
+            removeSession('login_token');
+        }
+    }
+
+    return false;
+}
