@@ -69,7 +69,9 @@ if (isPost()) {
 
     if (empty($errors)) {
         // Validation successful
+        // Create active token
         $activeToken = sha1(uniqid() . time());
+        // Insert into table 'user'
         $dataInsert = [
             'email' => $email,
             'fullname' => $fullname,
@@ -106,16 +108,16 @@ if (isPost()) {
         setFlashData('msg', 'Please check the input form data.');
         setFlashData('msg_type', 'danger');
         setFlashData('errors', $errors);
-        setFlashData('oldData', $body);
-
+        setFlashData('old_data', $body);
     }
+
     redirect('?module=auth&action=register');
 }
 
 $msg = getFlashData('msg');
 $msgType = getFlashData('msg_type');
 $errors = getFlashData('errors');
-$oldData = getFlashData('oldData');
+$oldData = getFlashData('old_data');
 
 ?>
 

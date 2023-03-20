@@ -7,21 +7,19 @@ $data = [
 ];
 addLayout('header-login', $data);
 
-if (isLoggedIn()) {
-    redirect('?module=home&action=welcome');
-}
-
 if (isPost()) {
     $body = getBody();
     if (!empty(trim($body['email'])) && !empty($body['password'])) {
         $email = $body['email'];
         $password = $body['password'];
 
+        // Check if email address exists in table 'user'
         $sql = "SELECT id, password FROM user WHERE email=:email";
         $data = ['email' => $email];
         $result = getFirstRow($sql, $data);
 
         if (!empty($result)) {
+            // Check if password matches a hashed password in database
             $hashedPassword = $result['password'];
             $isPasswordMatch = password_verify($password, $hashedPassword);
             if ($isPasswordMatch) {
