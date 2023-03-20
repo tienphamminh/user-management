@@ -172,7 +172,7 @@ function isPhone($phone): bool
 }
 
 // Get contextual feedback messages (Ex: $context = 'success', 'danger', 'warning' )
-function getMessage($msg, $context): ?string
+function getMessage($msg, $context = 'primary'): ?string
 {
     if (!empty($msg)) {
         return '<div class="alert alert-' . $context . '">' . $msg . '</div>';
