@@ -2,9 +2,17 @@
 
 if (!defined('_INCODE')) die('Access Denied...');
 
-if (!isLoggedIn()) {
-    redirect('?module=auth&action=login');
-}
+$data = [
+    'pageTitle' => 'Home'
+];
+addLayout('header', $data);
 
-echo '<h1> HOME PAGE </h1> <br>';
-echo 'Your login_token is: ' . getSession('login_token');
+?>
+
+    <h1> HOME PAGE </h1> <br>
+    Your login_token is: <?php echo getSession('login_token'); ?>
+
+<?php
+addLayout('footer');
+
+
