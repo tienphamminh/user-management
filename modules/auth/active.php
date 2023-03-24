@@ -2,10 +2,10 @@
 
 if (!defined('_INCODE')) die('Access Denied...');
 
-$data = [
+$dataHeader = [
     'pageTitle' => 'Verify Account'
 ];
-addLayout('header-login', $data);
+addLayout('header-login', $dataHeader);
 
 if (!empty(getBody()['token'])) {
     // Check if active token in URL exists in table 'user'

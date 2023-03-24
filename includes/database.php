@@ -70,8 +70,30 @@ function delete($tableName, $condition = '', $dataCondition = [])
     return query($sql, $dataCondition);
 }
 
+// Fetch a limited number of rows returned by a PDO statement object
+function getLimitRows($sql, $limit, $offset, $data = [])
+{
+    global $dbh;
+    try {
+        $sth = $dbh->prepare($sql); // $sth: statement handle
+        foreach ($data as $key => $value) {
+            $sth->bindValue($key, $value);
+        }
+        $sth->bindValue('limit', (int)$limit, PDO::PARAM_INT);
+        $sth->bindValue('offset', (int)$offset, PDO::PARAM_INT);
+        $sth->execute();
+        return $sth->fetchAll(PDO::FETCH_ASSOC);
+
+    } catch (PDOException $e) {
+        require_once 'modules/error/db-error.php';
+        exit;
+    }
+
+    return false;
+}
+
 // Fetch all rows returned by a PDO statement object
-function getAllRows($sql, $data)
+function getAllRows($sql, $data = [])
 {
     $statement = query($sql, $data, true);
     if (is_object($statement)) {
@@ -82,7 +104,7 @@ function getAllRows($sql, $data)
 }
 
 // Fetch first row returned by a PDO statement object
-function getFirstRow($sql, $data)
+function getFirstRow($sql, $data = [])
 {
     $statement = query($sql, $data, true);
     if (is_object($statement)) {
@@ -116,7 +138,7 @@ function selectFirstRow($tableName, $fieldStr = '*', $condition = '', $dataCondi
 }
 
 // Returns the number of rows affected by the last SQL statement
-function getNumberOfRows($sql, $data)
+function getNumberOfRows($sql, $data = [])
 {
     $statement = query($sql, $data, true);
     if (is_object($statement)) {

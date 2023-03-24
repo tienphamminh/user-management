@@ -2,10 +2,10 @@
 
 if (!defined('_INCODE')) die('Access Denied...');
 
-$data = [
+$dataHeader = [
     'pageTitle' => 'Register'
 ];
-addLayout('header-login', $data);
+addLayout('header-login', $dataHeader);
 
 if (isPost()) {
     $body = getBody();

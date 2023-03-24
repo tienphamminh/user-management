@@ -2,10 +2,10 @@
 
 if (!defined('_INCODE')) die('Access Denied...');
 
-$data = [
+$dataHeader = [
     'pageTitle' => 'Forgot Password'
 ];
-addLayout('header-login', $data);
+addLayout('header-login', $dataHeader);
 
 
 if (isPost()) {

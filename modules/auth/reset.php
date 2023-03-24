@@ -2,10 +2,10 @@
 
 if (!defined('_INCODE')) die('Access Denied...');
 
-$data = [
+$dataHeader = [
     'pageTitle' => 'Create a New Password'
 ];
-addLayout('header-login', $data);
+addLayout('header-login', $dataHeader);
 
 if (!empty(getBody()['token'])) {
     // Check if forgot token in URL exists in table 'user'
