@@ -14,7 +14,7 @@ if (!isLoggedIn()) {
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><?php echo !empty($data['pageTitle']) ? $data['pageTitle'] : 'User Management'; ?></title>
+    <title><?php echo (!empty($dataHeader['pageTitle'])) ? $dataHeader['pageTitle'] : 'User Management'; ?></title>
     <link type="text/css" rel="stylesheet" href="<?php echo _WEB_HOST_TEMPLATE ?>/css/bootstrap.min.css">
     <link type="text/css" rel="stylesheet" href="<?php echo _WEB_HOST_TEMPLATE ?>/css/font-awesome.min.css">
     <link type="text/css" rel="stylesheet"
@@ -38,6 +38,10 @@ if (!isLoggedIn()) {
                 <ul class="navbar-nav">
                     <li class="nav-item active">
                         <a class="nav-link" href="?module=home&action=welcome">Home</a>
+                    </li>
+
+                    <li class="nav-item active">
+                        <a class="nav-link" href="?module=user&action=list">List</a>
                     </li>
 
                     <li class="nav-item dropdown profile">

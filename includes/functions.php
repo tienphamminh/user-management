@@ -8,7 +8,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-function addLayout($layoutName = 'header', $data = []): void
+function addLayout($layoutName = 'header', $dataHeader = []): void
 {
     $path = _DIR_PATH_TEMPLATE . '/layouts/' . $layoutName . '.php';
     if (file_exists($path)) {
