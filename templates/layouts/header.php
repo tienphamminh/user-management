@@ -1,11 +1,16 @@
 <?php
 if (!defined('_INCODE')) die('Access Denied...');
 
+autoRemoveLoginToken();
+
 if (!isLoggedIn()) {
     redirect('?module=auth&action=login');
 }
 
 $fullname = getSession('fullname');
+$userId = getSession('id');
+
+saveActivity($userId);
 ?>
 
 <!doctype html>

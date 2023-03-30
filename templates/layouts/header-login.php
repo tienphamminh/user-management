@@ -1,6 +1,8 @@
 <?php
 if (!defined('_INCODE')) die('Access Denied...');
 
+autoRemoveLoginToken();
+
 if (isLoggedIn()) {
     redirect('?module=home&action=welcome');
 }
