@@ -220,3 +220,37 @@ function isLoggedIn(): bool
 
     return false;
 }
+
+// Auto remove login_token after 15 minutes
+function autoRemoveLoginToken(): void
+{
+    $sql = "SELECT * FROM user WHERE status=:status";
+    $data = ['status' => 1];
+    $allUsers = getAllRows($sql, $data);
+
+    if (!empty($allUsers)) {
+        foreach ($allUsers as $user) {
+            $now = date('Y-m-d H:i:s');
+            $before = $user['last_activity'];
+            $diff = strtotime($now) - strtotime($before);
+            $diff = floor($diff / 60);
+            $duration = 15;
+
+            if ($diff >= $duration) {
+                // Delete login_token
+                $condition = "user_id=:user_id";
+                $dataCondition = ['user_id' => $user['id']];
+                delete('login_token', $condition, $dataCondition);
+            }
+        }
+    }
+}
+
+// Save last activity of user
+function saveActivity($userId): void
+{
+    $dataUpdate = ['last_activity' => date('Y-m-d H:i:s')];
+    $condition = "id=:id";
+    $dataCondition = ['id' => $userId];
+    update('user', $dataUpdate, $condition, $dataCondition);
+}

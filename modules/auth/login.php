@@ -14,8 +14,11 @@ if (isPost()) {
         $password = $body['password'];
 
         // Check if email address exists in table 'user'
-        $sql = "SELECT id, fullname, password FROM user WHERE email=:email";
-        $data = ['email' => $email];
+        $sql = "SELECT id, fullname, password FROM user WHERE email=:email AND status=:status";
+        $data = [
+            'email' => $email,
+            'status' => 1
+        ];
         $result = getFirstRow($sql, $data);
 
         if (!empty($result)) {
@@ -37,6 +40,7 @@ if (isPost()) {
                 $isDataInserted = insert('login_token', $dataInsert);
 
                 if ($isDataInserted) {
+                    saveActivity($userId);
                     setSession('login_token', $loginToken);
                     setSession('id', $userId);
                     setSession('fullname', $fullname);
@@ -48,7 +52,7 @@ if (isPost()) {
                 }
             }
         }
-        setFlashData('msg', 'Incorrect email address or password.');
+        setFlashData('msg', 'Incorrect email address or password (or not active).');
 
     } else {
         setFlashData('msg', 'Please enter your email and password.');

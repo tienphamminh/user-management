@@ -1,5 +1,7 @@
 <?php
 
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+
 // Prevent direct access to files from URL
 const _INCODE = true;
 
