@@ -201,7 +201,7 @@ function getOldFormValue($fieldName, $oldDData)
     return null;
 }
 
-function isLoggedIn()
+function isLoggedIn(): bool
 {
     if (getSession('login_token')) {
         $loginToken = getSession('login_token');
@@ -212,9 +212,9 @@ function isLoggedIn()
         $result = getFirstRow($sql, $data);
 
         if (!empty($result)) {
-            return $result;
+            return true;
         } else {
-            removeSession('login_token');
+            removeSession();
         }
     }
 

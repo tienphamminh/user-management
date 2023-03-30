@@ -31,7 +31,7 @@ if (isGet()) {
         } else {
             $operator = 'WHERE';
         }
-        $conditionalClause .= "$operator fullname LIKE :search";
+        $conditionalClause .= "$operator CONCAT_WS('|', fullname, email) LIKE :search";
         $search = "%$keyword%";
         $dataCondition['search'] = $search;
     }
@@ -69,11 +69,14 @@ if (!empty($_SERVER['QUERY_STRING'])) {
     $queryString = str_replace('module=user&action=list', '', $queryString);
     $queryString = str_replace('&page=' . $pageNumber, '', $queryString);
 }
+
+$msg = getFlashData('msg');
+$msgType = getFlashData('msg_type');
 ?>
     <div class="container" style="margin-top: 40px">
         <h3>User Management System</h3>
         <p>
-            <a href="?module=users&action=add" class="btn btn-success btn-sm">
+            <a href="?module=user&action=add" class="btn btn-success">
                 Add user <i class="fa fa-plus"></i>
             </a>
         </p>
@@ -94,16 +97,19 @@ if (!empty($_SERVER['QUERY_STRING'])) {
                         </select>
                     </div>
                 </div>
-                <div class="col-6">
-                    <input type="search" class="form-control" name="keyword" placeholder="Enter keyword..."
+                <div class="col-7">
+                    <input type="search" class="form-control" name="keyword"
+                           placeholder="Search by fullname or email..."
                            value="<?php echo (!empty($keyword)) ? $keyword : null; ?>">
                 </div>
-                <div class="col-3">
+                <div class="col-2">
                     <button type="submit" class="btn btn-primary btn-block">Search</button>
                 </div>
             </div>
-
+            <p class="text-muted"><?php echo 'Total: ' . $numberOfResults . ' rows.'; ?></p>
         </form>
+
+        <?php echo getMessage($msg, $msgType); ?>
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -140,12 +146,10 @@ if (!empty($_SERVER['QUERY_STRING'])) {
                             ?>
                         </td>
                         <td>
-                            <form action="?module=user&action=edit" method="post">
-                                <input type="hidden" name="id" value="<?php echo $user['id']; ?>">
-                                <button type="submit" class="btn btn-primary btn-sm">
-                                    <i class="fa fa-edit"></i>
-                                </button>
-                            </form>
+                            <a href="?module=user&action=edit&id=<?php echo $user['id']; ?>"
+                               class="btn btn-warning btn-sm">
+                                <i class="fa fa-edit"></i>
+                            </a>
                         </td>
                         <td>
                             <form action="?module=user&action=delete" method="post">
@@ -175,31 +179,46 @@ if (!empty($_SERVER['QUERY_STRING'])) {
         <nav aria-label="Page navigation example">
             <ul class="pagination">
                 <?php
+                // Display Previous button
                 if ($pageNumber > 1) {
                     $prevPage = $pageNumber - 1;
                     echo '<li class="page-item"><a class="page-link" href="?module=user&action=list&page=' . $prevPage . $queryString . '">Previous</a></li>';
                 }
                 ?>
+
                 <?php
-                $begin = $pageNumber - 2;
-                if ($begin < 1) {
+                $numberOfItems = 5;
+                $half = floor($numberOfItems / 2);
+                $begin = $pageNumber - $half;
+                $end = $pageNumber + $half;
+                if ($numberOfPages <= $numberOfItems) {
                     $begin = 1;
-                }
-                $end = $pageNumber + 2;
-                if ($end > $numberOfPages) {
                     $end = $numberOfPages;
+                } else {
+                    if ($begin < 1) {
+                        $begin = 1;
+                        $end = $numberOfItems;
+                    }
+                    if ($end > $numberOfPages) {
+                        $begin = $numberOfPages - $numberOfItems + 1;
+                        $end = $numberOfPages;
+                    }
                 }
+                // Display page-item
                 for ($index = $begin; $index <= $end; $index++) {
                     ?>
                     <li class="page-item <?php echo ($index == $pageNumber) ? 'active' : null; ?>">
-                        <a class="page-link" href="?module=user&action=list&page=<?php echo $index . $queryString; ?>">
+                        <a class="page-link"
+                           href="?module=user&action=list&page=<?php echo $index . $queryString; ?>">
                             <?php echo $index; ?>
                         </a>
                     </li>
                     <?php
                 }
                 ?>
+
                 <?php
+                // Display Next button
                 if ($pageNumber < $numberOfPages) {
                     $nextPage = $pageNumber + 1;
                     echo '<li class="page-item"><a class="page-link" href="?module=user&action=list&page=' . $nextPage . $queryString . '">Next</a></li>';

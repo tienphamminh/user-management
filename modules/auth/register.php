@@ -122,7 +122,7 @@ $oldData = getFlashData('old_data');
 ?>
 
     <div class="row">
-        <div class="col-6" style="margin: 20px auto;">
+        <div class="col-4" style="margin: 20px auto;">
             <h3 class="text-center text-uppercase" style="margin-bottom: 40px">Create an Account</h3>
             <?php echo getMessage($msg, $msgType); ?>
 

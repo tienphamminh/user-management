@@ -4,6 +4,7 @@ if (!defined('_INCODE')) die('Access Denied...');
 if (isLoggedIn()) {
     redirect('?module=home&action=welcome');
 }
+
 ?>
 
 <!doctype html>

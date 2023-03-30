@@ -14,11 +14,14 @@ if (isPost()) {
         $password = $body['password'];
 
         // Check if email address exists in table 'user'
-        $sql = "SELECT id, password FROM user WHERE email=:email";
+        $sql = "SELECT id, fullname, password FROM user WHERE email=:email";
         $data = ['email' => $email];
         $result = getFirstRow($sql, $data);
 
         if (!empty($result)) {
+            $userId = $result['id'];
+            $fullname = $result['fullname'];
+
             // Check if password matches a hashed password in database
             $hashedPassword = $result['password'];
             $isPasswordMatch = password_verify($password, $hashedPassword);
@@ -27,7 +30,7 @@ if (isPost()) {
                 $loginToken = sha1(uniqid() . time());
                 // Insert into table 'login_token'
                 $dataInsert = [
-                    'user_id' => $result['id'],
+                    'user_id' => $userId,
                     'token' => $loginToken,
                     'create_at' => date('Y-m-d H:i:s')
                 ];
@@ -35,6 +38,8 @@ if (isPost()) {
 
                 if ($isDataInserted) {
                     setSession('login_token', $loginToken);
+                    setSession('id', $userId);
+                    setSession('fullname', $fullname);
                     redirect('?module=home&action=welcome');
                 } else {
                     setFlashData('msg', 'Something went wrong, please try again.');
@@ -58,7 +63,7 @@ $msgType = getFlashData('msg_type');
 ?>
 
     <div class="row">
-        <div class="col-6" style="margin: 20px auto;">
+        <div class="col-3" style="margin: 20px auto;">
             <h3 class="text-center text-uppercase" style="margin-bottom: 40px">Login to System</h3>
 
             <?php echo getMessage($msg, $msgType) ?>
