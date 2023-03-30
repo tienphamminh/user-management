@@ -7,6 +7,6 @@ if (isLoggedIn()) {
     $condition = "token=:token";
     $dataCondition = ['token' => $loginToken];
     delete('login_token', $condition, $dataCondition);
-    removeSession('login_token');
+    removeSession();
 }
 redirect('?module=auth&action=login');
